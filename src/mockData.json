@@ -1,0 +1,45 @@
+/*
+    Структура данных, приходящих на фронт по работе
+
+{
+    id: int,
+    name: string,
+    category: string,
+    createDate: string,
+    period: string,
+    description: string,
+    doneWork: {
+        [
+            lastUpdate: string,
+            description: string
+        ]
+    }
+}
+
+*/
+
+{
+    id: 1,
+    name: 'Наименование работы',
+    category: 'Главный двигатель'
+    createDate: '2023-01-28',
+    period: '1 week',
+    description: 'Описание работы',
+    doneWork: {
+        [
+            updateDate: '2023-01-29',
+            description: 'Описание проделанных работ'
+        ]   
+    }
+}
+
+
+
+[
+    {"title":"выполненная работа4",
+"description":"Описание выполненной работы4",
+"factWorkDate":"2011-03-10 00:00:00+09",
+"planWorkDate":"2011-04-10 00:00:00+09",
+"whoDidWork":"Главный механик44"}]
+
+[{"title":"выполненная работа","description":"Описание выполненной работы","factWorkDate":"2011-01-10 00:00:00+09","planWorkDate":"2011-02-10 00:00:00+09","whoDidWork":"Главный механик"},{"title":"выполненная работа2","description":"Описание выполненной работы2","factWorkDate":"2011-02-10 00:00:00+09","planWorkDate":"2011-03-10 00:00:00+09","whoDidWork":"Главный механик2"}]

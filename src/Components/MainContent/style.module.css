@@ -1,0 +1,10 @@
+.grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
+}
+.scroll{
+  max-height: calc(100vh - 100px);
+  overflow: hidden;
+  overflow-y: scroll;
+}

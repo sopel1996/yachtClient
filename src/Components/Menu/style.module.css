@@ -1,0 +1,40 @@
+.header {
+	width           : 100%;
+	padding         : 10px 0;
+	background-color: #2aabe4;
+}
+
+.header_wrapper {
+	display        : flex;
+	align-items    : center;
+	justify-content: space-between;
+	gap            : 40px;
+}
+
+.menu{
+	display: flex;
+    flex-grow: 1;
+    justify-content: flex-start;
+}
+.menuLink{
+	margin-right: 20px;
+	color: white;
+}
+
+.menuLink:visited{
+	margin-right: 20px;
+	color: white;
+}
+
+.menuLink:hover{
+	margin-right: 20px;
+	color: gray;
+}
+@media (max-width: 640px) {
+	.header_wrapper {
+		position   : relative;
+		align-items: flex-end;
+		height     : 120px;
+
+	}
+}
