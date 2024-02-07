@@ -23,88 +23,84 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import "dayjs/locale/ru";
 
 const periodArray = [
-  {label: '1 день', id: 0},
-  {label: '1 неделя', id: 1},
-  {label: '1 месяц', id: 2},
-  {label: '1 год', id: 3},
-]
+  { label: "1 день", id: 0 },
+  { label: "1 неделя", id: 1 },
+  { label: "1 месяц", id: 2 },
+  { label: "1 год", id: 3 },
+];
 
-const onSubmitHandler = (event)=>{
+const onSubmitHandler = (event) => {
   event.preventDefault();
   const {
-      target: {
-        name,
-        category,
-        description,
-        oneTimeJob,
-        period,
-        firstWorkDate,
-      },
-    } = event,
-    newFirstWorkDate = `${firstWorkDate.value.split(".")[2]}-${firstWorkDate.value.split(".")[1]}-${firstWorkDate.value.split(".")[0]}`,
-    work = new FormData(),
-    date = new Date(newFirstWorkDate);
-    let nextWorkDate;
+    target: { name, category, description, oneTimeJob, period, firstWorkDate },
+  } = event;
 
-  work.append("name", name.value);
-  work.append("category", category.value);
-  work.append("description", description.value);
-  work.append("oneTimeJob", oneTimeJob.checked);
-  work.append("period", period.value);
-  work.append("firstWorkDate", newFirstWorkDate);
-  work.append("nextWorkDate", newFirstWorkDate);
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
 
-  fetch("http://localhost:5000/api/work", {
-    method: "POST",
-    
-    body: work,
-  })
-    .then((response) => response.text())
-    .then((result) => console.log(result))
-    .catch((error) => console.log("error", error));
-}
+  var raw = {
+    name: name.value,
+    category: category.value,
+    description: description.value,
+    oneTimeJob: oneTimeJob.checked,
+    period: period.value,
+    firstWorkDate: dayjs(firstWorkDate.value, "DD.MM.YYYY").format(
+      "YYYY-MM-DD"
+    ),
+    nextWorkDate: dayjs(firstWorkDate.value, "DD.MM.YYYY").format("YYYY-MM-DD"),
+  };
+
+  api
+    .getPromise("api/work", "POST", raw)
+    .then((result) => console.log("work added!"));
+};
 
 export const WorkCreate = ({}) => {
-  let [nodes, setNodes] = useState([])
-  useEffect(()=>{
-    fetch(`http://localhost:5000/api/type`, {
-      method: "GET",
-      
-    })
-      .then((response) => response.text())
+  let [nodes, setNodes] = useState([]);
+  useEffect(() => {
+    api
+      .getPromise(`api/type`, "GET")
       .then((result) => {
-        const array = JSON.parse(result) 
-        setNodes(array.map((el)=>{return {
-          label: el.name,
-          id: el.id
-        }}))
+        setNodes(
+          result.map((el) => {
+            return {
+              label: el.name,
+              id: el.id,
+            };
+          })
+        );
       })
       .catch((error) => console.log("error", error));
-  },[])
+  }, []);
   return (
-    <form
-      onSubmit={onSubmitHandler}
-      className={styles.createForm}
-    >
+    <form onSubmit={onSubmitHandler} className={styles.createForm}>
       <TextField
         id="name"
         name="name"
         label="Наименование работы"
         variant="standard"
-        required 
+        required
       />
       <Autocomplete
         disablePortal
         id="category"
         name="category"
         options={nodes}
-        sx={{ width: '100%' }}
-        renderInput={(params) => <TextField {...params} required label="Узел" />}
-        required 
+        sx={{ width: "100%" }}
+        renderInput={(params) => (
+          <TextField {...params} required label="Узел" />
+        )}
+        required
       />
       <div>
         <Typography>Описание работ</Typography>
-        <TextareaAutosize minRows={15} maxRows={15} name="description" className={styles.textArea} required/>
+        <TextareaAutosize
+          minRows={15}
+          maxRows={15}
+          name="description"
+          className={styles.textArea}
+          required
+        />
       </div>
       <FormControlLabel
         control={<Checkbox name="oneTimeJob" />}
@@ -116,7 +112,7 @@ export const WorkCreate = ({}) => {
         id="period"
         name="period"
         options={periodArray}
-        sx={{ width: '100%' }}
+        sx={{ width: "100%" }}
         renderInput={(params) => (
           <TextField {...params} required label="Период выолнения работ" />
         )}

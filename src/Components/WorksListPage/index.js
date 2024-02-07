@@ -19,11 +19,9 @@ import { WorkShow } from "../WorkShow";
 export const WorksListPage = () => {
   const [works, setWorks] = useState();
   useEffect(() => {
-    fetch("http://localhost:5000/api/work", {
-      method: "GET",
-    })
-      .then((response) => response.text())
-      .then((result) => setWorks(JSON.parse(result).rows))
+
+    api.getPromise(`api/work`, 'GET')
+      .then((result) => setWorks(result.rows))
       .catch((error) => console.log("error", error));
   }, []);
   require("dayjs/locale/ru");

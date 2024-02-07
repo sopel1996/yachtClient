@@ -23,57 +23,13 @@ import { TreeItem } from '@mui/x-tree-view/TreeItem';
 
 export const MainPage = ({
 }) => {
-  console.log(process.env.API_URL);
-  // fetch(`http://localhost:5000/api/type`).then((res)=>{return res.json()}).then((res)=>{console.log(res)});
 return (
     <div className={cn("sectionInner", styles.mainPage)}>
         <div className={cn("sectionINner", styles.treeMenu)}>
-        
           </div>
           <div className={cn("sectionInner", styles.mainContent)}>
             <MainContent />
           </div>
     </div>
-
-//       <HeaderLine />
-//       {Object.keys(params).length ? (
-//         <>
-//           <div className={cn(styles.gridTable)}>
-//             {list?.map((item) => (
-//               <PostCard
-//                 post={item}
-//                 key={item._id}
-//                 isInFavorite={favorite.includes(item._id)}
-//                 setFavorite={setFavorite}
-//                 user={user}
-//                 setPostsState={setPostsState}
-//                 setPagesCnt={setPagesCnt}
-//                 tagSearch={tagSearch}
-//               />
-//             ))}
-//           </div>
-//           <GoBackButton />
-//         </>
-//       ) : (
-//         <>
-//           <div className={cn(styles.gridTable)}>
-//             {list?.map((item) => (
-//               <PostCard
-//                 post={item}
-//                 key={item._id}
-//                 isInFavorite={favorite.includes(item._id)}
-//                 setFavorite={setFavorite}
-//                 user={user}
-//                 setPostsState={setPostsState}
-//                 setPagesCnt={setPagesCnt}
-//                 tagSearch={tagSearch}
-//               />
-//             ))}
-//           </div>
-
-//           <Pagination pagesCnt={pagesCnt} />
-//         </>
-//       )}
-    // </div>
   );
 };

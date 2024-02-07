@@ -32,22 +32,16 @@ export const WorkInfoEdit = ({}) => {
         factWorkDate,
         whoDidWork,
         description,
-      } = params,
-      doneWork = new FormData();
+      } = params;
 
-    console.log(params)
-
-    doneWork.append("title", title);
-    doneWork.append("factWorkDate", factWorkDate);
-    doneWork.append("whoDidWork", whoDidWork);
-    doneWork.append("description", description);
-
-    fetch(`http://localhost:5000/api/work/donework/${id}/edit`, {
-      method: "PUT",
-      body: doneWork,
+    api.getPromise(`api/work/donework/${id}/edit`, "PUT", {
+      "title": title,
+      "factWorkDate": factWorkDate,
+      "whoDidWork": whoDidWork,
+      "description": description
     })
-      .then((response) =>  response.text())
-      .then((response) => navigate(`/works/${response}`))
+
+      .then((result) => navigate(`/works/${result}`))
       .catch((error) => console.log("error", error));
   };
 
@@ -58,17 +52,14 @@ export const WorkInfoEdit = ({}) => {
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/work/donework/${params.id}`, {
-      method: "GET",
-    })
-      .then((response) => response.text())
+
+    api.getPromise(`api/work/donework/${params.id}`, "GET")
       .then((result) => {
-        let work = JSON.parse(result);
-        setTitle(work.title);
-        setPlanWorkDate(work.planWorkDate);
-        setFactWorkDate(dayjs(work.factWorkDate, "YYYY-MM-DD"));
-        setWhoDidWork(work.whoDidWork);
-        setDescription(work.description);
+        setTitle(result.title);
+        setPlanWorkDate(result.planWorkDate);
+        setFactWorkDate(dayjs(result.factWorkDate, "YYYY-MM-DD"));
+        setWhoDidWork(result.whoDidWork);
+        setDescription(result.description);
       })
       .catch((error) => console.log("error", error));
   }, []);
@@ -117,7 +108,6 @@ export const WorkInfoEdit = ({}) => {
           id="factWorkDate"
           value={factWorkDate}
           onChange={(newValue) => {
-            console.log("newValue", newValue);
             setFactWorkDate(newValue);
           }}
           label="Фактическая дата выполнения работ"

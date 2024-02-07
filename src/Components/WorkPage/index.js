@@ -22,11 +22,8 @@ export const WorkPage = () => {
   const [work, setWork] = useState();
   const params = useParams();
   useEffect(() => {
-    fetch(`http://localhost:5000/api/work/${params.id}`, {
-      method: "GET",
-    })
-      .then((response) => response.text())
-      .then((result) => setWork(JSON.parse(result)))
+    api.getPromise(`api/work/${params.id}`, "GET")
+      .then((result) => setWork(result))
       .catch((error) => console.log("error", error));
   }, []);
   require("dayjs/locale/ru");

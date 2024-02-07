@@ -38,26 +38,17 @@ export const MainContent = ({
 
   require("dayjs/locale/ru");
   
-  console.log(dayjs('2024-02-01T12:23', 'YYYY-MM-DD').format('DD-MM-YYYY'))
   const [overdueWorks, setOverdueWorks] = useState([])
   const [upcomingWorks, setUpcomingWorks] = useState([])
   
   useEffect(()=>{
-    fetch(`${process.env.API_LINK}api/work/getAllWithParams?today=${dayjs().format('YYYY-MM-DD')}`, {
-      method: "GET",
-      
-    })
-      .then((response) => response.text())
+    api.getPromise(`api/work/getAllWithParams?today=${dayjs().format('YYYY-MM-DD')}`, 'GET')
       .then((result) => {
-        let res = JSON.parse(result)
-        console.log(res)
-        setOverdueWorks(res.overdueWorks)
-        setUpcomingWorks(res.upcomingWorks)
+        setOverdueWorks(result.overdueWorks)
+        setUpcomingWorks(result.upcomingWorks)
       })
       .catch((error) => console.log("error", error));
   },[])
-
-  console.log(dayjs().format('YYYY-MM-DD'))
 
   return (
     <div className={cn('sectionInner', styles.grid)}>
@@ -66,7 +57,7 @@ export const MainContent = ({
           Просроченные работы: {overdueWorks.length}
       </Typography>
         <div  className={styles.scroll}>
-          {overdueWorks.map( el=><WorkLineShow work={el}/> )}
+          {overdueWorks.map( el=><WorkLineShow work={el} key={uuidv4()}/> )}
         </div>
 
       </div>
@@ -75,7 +66,7 @@ export const MainContent = ({
         Предстоящие работы: {upcomingWorks.length}
       </Typography>
         <div  className={styles.scroll}>
-          {upcomingWorks.map( el=><WorkLineShow work={el}/> )}
+          {upcomingWorks.map( el=><WorkLineShow work={el} key={uuidv4()}/> )}
         </div>
       </div>
     </div>

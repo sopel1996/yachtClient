@@ -22,22 +22,17 @@ import cn from "classnames";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
 
-// import { useLocalStorage } from "../../hooks/useLocalStorage";
-// import ModalContext from "../../contexts/modalContext";
 import styles from "./style.module.css";
 import api from "../../utils/api.js";
 
 import { Timeline } from "../Timeline";
-// import PageContext from "../../contexts/PageContext";
 
 export const WorkInfoShow = ({ workInfo }) => {
   const navigate = useNavigate();
   const deleteHandler = (id) =>{
-    fetch(`http://localhost:5000/api/work/donework/${id}`, {
-      method: "DELETE",
-    })
-      .then((response) =>  {
-        if (response.status === 200) {
+    api.getPromise(`api/work/donework/${id}`, 'DELETE')
+      .then((result) =>  {
+        if (result.status === 200) {
           document.getElementById(`workInfo-${id}`).remove()
         }
       })

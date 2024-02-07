@@ -1,4 +1,3 @@
-import { config } from './config';
 
 const onResponce = (res) => {
     return res.ok ? res.json() : Promise.reject(`Ошибка : ${res.status}`);
@@ -8,26 +7,30 @@ class Api {
         this._url = url;
         this._token = token;
     }
-    /*examples requests*/
-    getPosts(itemID) {
-        const requestUrl = itemID ? `${this._url}/posts/${itemID}` : `${this._url}/posts`;
-        return fetch(requestUrl, {
-            headers: {
-                authorization: `Bearer ${localStorage.getItem('token')}`,
-            },
-        }).then(onResponce);
-    }
-    addPosts(post) {
-        return fetch(`${this._url}/posts`, {
-            method: 'POST',
-            headers: {
-                authorization: `Bearer ${localStorage.getItem('token')}`,
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(post),
-        }).then(onResponce);
+
+// Универсальный метод отправки
+// @params url - без доменного имени и порта (при наличии) и слеша вначале (вид api/work)
+// @params method - строка с наименованием метода
+// @params body - объект тела запроса. БЕЗ JSON.STRINGIFY!
+
+    getPromise(url, method, body) {
+        var myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+
+        var requestOptions = {
+            method: method,
+            headers: myHeaders,
+        };
+        if (method !=='GET' && method !== 'DELETE'){
+            requestOptions.body = JSON.stringify(body || {})
+        }
+
+        return fetch(`${this._url}${url}`, requestOptions).then(onResponce);
     }
 
 }
 
-export default new Api(config);
+export default new Api({
+    url: process.env.API_LINK, //url API
+    token: '', //auth token
+});

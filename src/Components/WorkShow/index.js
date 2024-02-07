@@ -21,15 +21,11 @@ export const WorkShow = ({work, withWorks}) => {
   const navigate = useNavigate();
   
   const deleteHandler = (id) =>{
-   console.log(id)
-    fetch(`http://localhost:5000/api/work/${id}`, {
-      method: "DELETE",
-    })
-      .then((response) =>  {navigate('/works')})
+    api.getPromise(`api/work/${id}`, 'DELETE')
+      .then((result) =>  navigate('/works'))
       .catch((error) => console.log("error", error));
   }
 
-  // require("dayjs/locale/ru");
   return (
         <Card sx={{maxHeight: withWorks ? 'auto' : '600px'}} className={cn('sectionInner', styles.flex)}>
           <CardHeader

@@ -25,23 +25,16 @@ export const WorkInfoCreate = ({}) => {
 
 const onSubmitHandler = (event, params) => {
   event.preventDefault();
-  const workDone = new FormData();
-  
-  console.log('event',event)
-  console.log('params',params)
 
-  workDone.append("workId", params.workId);
-  workDone.append("title", params.title);
-  workDone.append("planWorkDate", params.planWorkDate);
-  workDone.append("factWorkDate", params.factWorkDate);
-  workDone.append("whoDidWork", params.whoDidWork);
-  workDone.append("description", params.description);
-
-  fetch("http://localhost:5000/api/work/donework", {
-    method: "POST",
-    body: workDone,
+  api.getPromise(`api/work/donework`, "POST", {
+    "workId": params.workId,
+    "title": params.title,
+    "planWorkDate": params.planWorkDate,
+    "factWorkDate": params.factWorkDate,
+    "whoDidWork": params.whoDidWork,
+    "description": params.description
   })
-  .then((response) => navigate(`/works/${params.workId}`))
+  .then((result) => navigate(`/works/${params.workId}`))
   .catch((error) => console.log("error", error));
 };
 
@@ -55,14 +48,10 @@ const params = useParams();
   const [description, setDescription] = useState("");
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/work/${params.id}`, {
-      method: "GET",
-    })
-      .then((response) => response.text())
+    api.getPromise(`api/work/${params.id}`, "GET")
       .then((result) => {
-        let res = JSON.parse(result); 
-        setWork(res)
-        setPlanWorkDate(res.nextWorkDate)
+        setWork(result)
+        setPlanWorkDate(result.nextWorkDate)
       })
       .catch((error) => console.log("error", error));
   }, []);
@@ -104,7 +93,6 @@ const params = useParams();
           id="factWorkDate"
           value={factWorkDate}
           onChange={(newValue) => {
-            console.log("newValue", newValue);
             setFactWorkDate(newValue);
           }}
           label="Фактическая дата выполнения работ"
