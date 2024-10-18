@@ -35,28 +35,7 @@ export const App = () => {
         <Menu />
       </Header>
       <div className={cn("sectionInner", 'flex')}>
-        <TreeView
-          aria-label="file system navigator"
-          defaultCollapseIcon={<ExpandMoreIcon />}
-          defaultExpandIcon={<ChevronRightIcon />}
-          sx={{ height: 240, flexGrow: 1, minWidth: 210, maxWidth: 300, overflowY: "auto" }}
-        >
-          <TreeItem nodeId="1" label="Applications">
-            <TreeItem nodeId="2" label="Calendar" />
-          </TreeItem>
-          <TreeItem nodeId="5" label="Documents">
-            <TreeItem nodeId="10" label="OSS" />
-            <TreeItem nodeId="6" label="MUI">
-              <TreeItem
-                nodeId="8"
-                label="index.js"
-                onClick={() => {
-                  console.log(123);
-                }}
-              />
-            </TreeItem>
-          </TreeItem>
-        </TreeView>
+        <MashineTable />
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/works/:id" element={<WorkPage />} />
