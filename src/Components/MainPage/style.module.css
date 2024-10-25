@@ -1,25 +1,26 @@
 .cardListContainer {
-    display        : flex;
-    flex-direction : column;
-    align-items    : center;
-    justify-content: center;
-    margin         : 0 0 20px 0;
-  }
-  
-  .mainPage {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
-  .gridTable {
-    margin               : 0 auto;
-    display              : grid;
-    grid-template-columns: repeat(3, 320px);
-    gap                  : 30px;
-    margin               : 0 0 20px 0;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 20px 0;
+  width: 310px !important;
+}
+
+.mainPage {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.gridTable {
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(3, 320px);
+  gap: 30px;
+  margin: 0 0 20px 0;
+}
+
 /*   
   @media screen and (max-width: 1024px) {
     .gridTable {

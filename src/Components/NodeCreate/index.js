@@ -1,42 +1,48 @@
-import React, { useState, useContext } from "react";
-
+import React, { useState, useContext, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import { TextareaAutosize } from "@mui/base";
-
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-
-import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import { v4 as uuidv4 } from "uuid";
-import * as dayjs from "dayjs";
-import cn from "classnames";
-
 import Autocomplete from "@mui/material/Autocomplete";
-
 import styles from "./style.module.css";
 import api from "../../utils/api.js";
 
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import "dayjs/locale/ru";
 
-const onSubmitHandler = (event)=>{
+const onSubmitHandler = (event, nodes) => {
   event.preventDefault();
-  const {name} = event.target
-
-  api.getPromise(`api/type`, 'POST', {
-    "name": name.value
-  })
-    .then((result) => console.log('Node added!'))
+  const { name, parentName } = event.target;
+  let parentId = nodes.find((el) => el.label === parentName.value);
+  api
+    .getPromise(`api/type`, "POST", {
+      name: name.value,
+      parent_id: parentId.id,
+    })
+    .then((result) => console.log("Node added!"))
     .catch((error) => console.log("error", error));
-}
+};
 
 export const NodeCreate = ({}) => {
+  let [nodes, setNodes] = useState([]);
+  useEffect(() => {
+    api
+      .getPromise(`api/type`, "GET")
+      .then((result) => {
+        setNodes(
+          result.map((el) => {
+            return {
+              label: el.name,
+              id: el.id,
+            };
+          })
+        );
+      })
+      .catch((error) => console.log("error", error));
+  }, []);
+
   return (
     <form
-      onSubmit={onSubmitHandler}
+      onSubmit={(evt) => {
+        onSubmitHandler(evt, nodes);
+      }}
       className={styles.createForm}
     >
       <TextField
@@ -44,7 +50,19 @@ export const NodeCreate = ({}) => {
         name="name"
         label="Наименование узла"
         variant="standard"
-        required 
+        required
+      />
+      <Autocomplete
+        disablePortal
+        id="parentName"
+        name="parentName"
+        options={nodes}
+        sx={{ width: "100%" }}
+        renderInput={(params) => {
+          console.log("params", params);
+          return <TextField {...params} label="Родительский узел" />;
+        }}
+        required
       />
       <Button
         type="submit"
