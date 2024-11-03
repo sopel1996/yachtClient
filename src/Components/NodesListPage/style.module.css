@@ -1,0 +1,22 @@
+.nodeContainer{
+  display: flex;
+}
+.name{
+  margin-right: 10px;
+}
+
+.editBtn{
+  display: block;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  background: url(../../../public/assets/edit.png) 50% 50%/cover no-repeat;
+  margin: 0 10px 0 0
+}
+.deleteBtn{
+  display: block;
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  background: url(../../../public/assets/delete.png) 50% 50%/cover no-repeat;
+}

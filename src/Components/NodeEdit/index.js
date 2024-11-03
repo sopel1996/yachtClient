@@ -4,24 +4,27 @@ import Button from "@mui/material/Button";
 import Autocomplete from "@mui/material/Autocomplete";
 import styles from "./style.module.css";
 import api from "../../utils/api.js";
+import { useParams } from "react-router-dom";
 
 import "dayjs/locale/ru";
 
-const onSubmitHandler = (event, nodes) => {
+const onSubmitHandler = (event, id, nodeName, parentNode) => {
   event.preventDefault();
-  const { name, parentName } = event.target;
-  let parentId = nodes.find((el) => el.label === parentName.value);
+ 
   api
-    .getPromise(`api/type`, "POST", {
-      name: name.value,
-      parent_id: parentId?.id || null,
+    .getPromise(`api/type/${id}/edit`, "PUT", {
+      name: nodeName,
+      parent_id: parentNode?.id || null,
     })
-    .then((result) => console.log("Node added!"))
+    .then((result) => console.log("Node edited!"))
     .catch((error) => console.log("error", error));
 };
 
-export const NodeCreate = ({}) => {
+export const NodeEdit = ({}) => {
+  const params = useParams();
   let [nodes, setNodes] = useState([]);
+  let [nodeName, setNodeName] = useState([]);
+  let [parentNode, setParentNode] = useState([]);
   useEffect(() => {
     api
       .getPromise(`api/type`, "GET")
@@ -37,11 +40,24 @@ export const NodeCreate = ({}) => {
       })
       .catch((error) => console.log("error", error));
   }, []);
+  useEffect(() => {
+    api
+    .getPromise(`api/type/${params.id}`, "GET")
+    .then((result) => {
+      console.log(result)
+      console.log(nodes)
+      let parentNode = nodes.find((el) => el.id === result.parent_id)
+      setNodeName(result.name)
+      console.log('parentNode',parentNode)
+      setParentNode(parentNode)
+    })
+    .catch((error) => console.log("error", error));
+  }, [nodes]);
 
   return (
     <form
       onSubmit={(evt) => {
-        onSubmitHandler(evt, nodes);
+        onSubmitHandler(evt, params.id, nodeName, parentNode);
       }}
       className={styles.createForm}
     >
@@ -51,6 +67,10 @@ export const NodeCreate = ({}) => {
         label="Наименование узла"
         variant="standard"
         required
+        value={nodeName}
+        onChange={({ target }) => {
+          setNodeName(target.value);
+        }}
       />
       <Autocomplete
         disablePortal
@@ -58,6 +78,10 @@ export const NodeCreate = ({}) => {
         name="parentName"
         options={nodes}
         sx={{ width: "100%" }}
+        value={parentNode}
+        onChange={(event, newValue) => {
+          setParentNode(newValue);
+        }}
         renderInput={(params) => {
           return <TextField {...params} label="Родительский узел" />;
         }}
@@ -70,7 +94,7 @@ export const NodeCreate = ({}) => {
         size="small"
         className="createBtn"
       >
-        создать
+        Сохранить
       </Button>
     </form>
   );

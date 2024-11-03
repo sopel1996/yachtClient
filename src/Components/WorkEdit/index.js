@@ -40,7 +40,8 @@ export const WorkEdit = ({}) => {
           description,
           oneTimeJob,
           period,
-          firstWorkDate
+          firstWorkDate,
+          typeId
       } = params;
   
   
@@ -51,13 +52,15 @@ export const WorkEdit = ({}) => {
       "oneTimeJob": oneTimeJob,
       "period": period,
       "firstWorkDate": firstWorkDate.format('YYYY-MM-DD'),
-      "nextWorkDate": firstWorkDate.format('YYYY-MM-DD')
+      "nextWorkDate": firstWorkDate.format('YYYY-MM-DD'),
+      'typeId': typeId
     })
       .then((result) => navigate(`/works/${id}`))
       .catch((error) => console.log("error", error));
   }
   const [workName, setWorkName] = useState('')
   const [category, setCategory] = useState('')
+  const [typeId, setTypeId] = useState()
   const [description, setDescription] = useState('')
   const [oneTimeJob, setOneTimeJob] = useState('')
   const [period, setPeriod] = useState('')
@@ -96,7 +99,8 @@ export const WorkEdit = ({}) => {
         description: description,
         oneTimeJob: oneTimeJob,
         period: period,
-        firstWorkDate: firstWorkDate
+        firstWorkDate: firstWorkDate,
+        typeId: typeId
       })}}
       className={styles.createForm}
     >
@@ -119,6 +123,8 @@ export const WorkEdit = ({}) => {
         sx={{ width: '100%' }}
         onChange={(event, newValue) => {
           setCategory(newValue.label);
+          setTypeId(newValue.id);
+
         }}
         options={nodes}
         renderInput={(params) => <TextField {...params} required label="Узел" />}

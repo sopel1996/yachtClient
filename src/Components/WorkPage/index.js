@@ -14,7 +14,7 @@ export const WorkPage = () => {
   }, []);
   require("dayjs/locale/ru");
   return (
-    <div style={(width = "100%")}>
+    <div style={{width: "100%"}}>
       {work && <WorkShow work={work} withWorks={true}></WorkShow>}
     </div>
   );

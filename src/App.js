@@ -8,11 +8,13 @@ import { Logo } from "./Components/Logo";
 import { Menu } from "./Components/Menu";
 import { WorkPage } from "./Components/WorkPage";
 import { WorksListPage } from "./Components/WorksListPage";
+import { NodesListPage } from "./Components/NodesListPage";
 import { WorkEdit } from "./Components/WorkEdit";
 import { WorkInfoEdit } from "./Components/WorkInfoEdit";
 import { WorkCreate } from "./Components/WorkCreate";
 import { WorkInfoCreate } from "./Components/WorkInfoCreate";
 import { NodeCreate } from "./Components/NodeCreate";
+import { NodeEdit } from "./Components/NodeEdit";
 
 
 
@@ -44,7 +46,9 @@ export const App = () => {
           <Route path="/works/edit/:id" element={<WorkEdit />} />
           <Route path="/works/donework/create/:id" element={<WorkInfoCreate />} />
           <Route path="/works/donework/edit/:id" element={<WorkInfoEdit />} />
+          <Route path="/node/" element={<NodesListPage />} />
           <Route path="/node/create" element={<NodeCreate />} />
+          <Route path="/node/:id/edit" element={<NodeEdit />} />
         </Routes>
       </div>
     </div>

@@ -29,11 +29,12 @@ const periodArray = [
   { label: "1 год", id: 3 },
 ];
 
-const onSubmitHandler = (event) => {
+const onSubmitHandler = (event,selectedOption) => {
   event.preventDefault();
   const {
     target: { name, category, description, oneTimeJob, period, firstWorkDate },
   } = event;
+
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/json");
@@ -48,6 +49,7 @@ const onSubmitHandler = (event) => {
       "YYYY-MM-DD"
     ),
     nextWorkDate: dayjs(firstWorkDate.value, "DD.MM.YYYY").format("YYYY-MM-DD"),
+    typeId: selectedOption.id
   };
 
   api
@@ -57,6 +59,8 @@ const onSubmitHandler = (event) => {
 
 export const WorkCreate = ({}) => {
   let [nodes, setNodes] = useState([]);
+  const [selectedOption, setSelectedOption] = useState(null);
+
   useEffect(() => {
     api
       .getPromise(`api/type`, "GET")
@@ -73,7 +77,7 @@ export const WorkCreate = ({}) => {
       .catch((error) => console.log("error", error));
   }, []);
   return (
-    <form onSubmit={onSubmitHandler} className={styles.createForm}>
+    <form onSubmit={(e)=>onSubmitHandler(e, selectedOption)} className={styles.createForm}>
       <TextField
         id="name"
         name="name"
@@ -87,6 +91,9 @@ export const WorkCreate = ({}) => {
         name="category"
         options={nodes}
         sx={{ width: "100%" }}
+        onChange={(event, newValue) => {
+          setSelectedOption(newValue);
+        }}
         renderInput={(params) => (
           <TextField {...params} required label="Узел" />
         )}

@@ -18,6 +18,9 @@ export const Menu = ({ children }) => {
       <Link to="/node/create" className={style.menuLink}>
         Создать узел
       </Link>
+      <Link to="/node/" className={style.menuLink}>
+        Список узелов
+      </Link>
     </ul>
   );
 };
