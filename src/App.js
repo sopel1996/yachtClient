@@ -15,6 +15,7 @@ import { WorkCreate } from "./Components/WorkCreate";
 import { WorkInfoCreate } from "./Components/WorkInfoCreate";
 import { NodeCreate } from "./Components/NodeCreate";
 import { NodeEdit } from "./Components/NodeEdit";
+import { PDFGenerator } from "./Components/PDFGenerator";
 
 
 
@@ -49,6 +50,7 @@ export const App = () => {
           <Route path="/node/" element={<NodesListPage />} />
           <Route path="/node/create" element={<NodeCreate />} />
           <Route path="/node/:id/edit" element={<NodeEdit />} />
+          <Route path="/Weeklyreportgenerator" element={<PDFGenerator />} />
         </Routes>
       </div>
     </div>
